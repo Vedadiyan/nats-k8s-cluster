@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seeds
+spec:
+  selector:
+    matchLabels:
+      app: seeds
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: seeds
+    spec:
+      containers:
+      - name: seeds
+        image: nats
+        args: 
+        - "--cluster"
+        - "nats://0.0.0.0:6222"
+        - "--cluster_name"
+        - "default_cluster"
+        ports:
+        - containerPort: 6222
+          name: cluster
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: seeds
+spec:
+  clusterIP: None
+  ports:
+  - port: 6222
+    targetPort: 6222
+    protocol: TCP
+  selector:
+    app: seeds

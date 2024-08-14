@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nodes
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodes
+  template:
+    metadata:
+      labels:
+        app: nodes
+    spec:
+      containers:
+      - name: nodes
+        image: nats
+        env:
+        - name: NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        args: 
+        - "-p"
+        - "4222"
+        - "--cluster"
+        - "nats://0.0.0.0:6222"
+        - "--cluster_name"
+        - "default_cluster"
+        - "--name"
+        - "$(NAME)"
+        - "--routes"
+        - "nats://seeds:6222"
+        - "--js"
+        - "--sd"
+        - "/var/lib/nats/js"
+        ports:
+        - containerPort: 4222
+          name: client
+        - containerPort: 6222
+          name: cluster  
+        volumeMounts:
+        - name: js
+          mountPath: /var/lib/nats/js
+  volumeClaimTemplates:
+  - metadata:
+      name: js
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodes
+spec:
+  ports:
+  - port: 4222
+    targetPort: 4222
+    protocol: TCP
+  selector:
+    app: nodes
