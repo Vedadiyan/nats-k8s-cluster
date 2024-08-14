@@ -7,7 +7,7 @@ In order to use this setup, clone the repo then run
 
 `kubectl apply -f nodes.yml`
 
-You can adjust the cluster size by changing the `replicas` values as you wish. But plesae note that, in case JetStream is enabled (which is by default), this will lead to an increase in disk space usage and stress. So it is recommended that you select the right number of replicas based on the number of nodes you have in your cluster. 
+You can adjust the cluster size by changing the `replicas` values as you wish. But plesae note that, in case JetStream is enabled (which is by default in this configuration), this will lead to an increase in disk space usage and stress. So it is recommended that you select the right number of replicas based on the number of nodes you have in your cluster. 
 
 # K3s 
 You may have to disable `firewald` in order for the headless service to work. However, if you are not interested in disabling your `firewalld` (which is the right choice) and `firewalld` is blocking requests, please follow these steps: 
