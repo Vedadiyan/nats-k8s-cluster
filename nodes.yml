@@ -67,15 +67,3 @@ spec:
       resources:
         requests:
           storage: 10Gi          
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nodes-exposed
-spec:
-  ports:
-  - port: 4222
-    targetPort: 4222
-    protocol: TCP
-  selector:
-    app: nodes
