@@ -8,6 +8,9 @@ spec:
   - port: 6222
     targetPort: 6222
     protocol: TCP
+  - port: 4222
+    targetPort: 4222
+    protocol: TCP
   selector:
     app: nodes
 ---    
