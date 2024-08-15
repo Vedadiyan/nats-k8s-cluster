@@ -99,7 +99,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nodes-status
+  name: nodes-monitor
 spec:
   ports:
   - port: 8222
