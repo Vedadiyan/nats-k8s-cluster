@@ -94,4 +94,17 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 10Gi          
+          storage: 10Gi      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodes-status
+spec:
+  ports:
+  - port: 8222
+    targetPort: 8222
+    name: monitor
+    protocol: TCP
+  selector:
+    app: nodes    
